@@ -55,3 +55,41 @@ resources: {
         ],
       },
 ```
+
+## URL Shortener Clase 8 - Create DynamoDB Library
+- Ejecutar `npm install @aws-sdk/client-dynamodb`
+- Ejecutar `npm install @aws-sdk/lib-dynamodb`
+- En `dynamo.ts`
+```
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { PutCommand, PutCommandInput } from "@aws-sdk/lib-dynamodb";
+
+//default region where lambda is deploying
+const dynamoClient = new DynamoDBClient({});
+export const dynamo = {
+  write: async (data: Record<string, any>, tableName: string) => {
+    const params: PutCommandInput = {
+      TableName: tableName,
+      Item: data,
+    };
+    const command = new PutCommand(params);
+    await dynamoClient.send(command);
+
+    return data;
+  },
+};
+
+```
+
+## URL Shortener Clase 9 - Define permissions that Lambda have
+- Agregar policy a lambda para utilizar DynamoDB, en `serverless.ts` en `provider` agregar `iamRoleStatements`
+```
+iamRoleStatements: [
+      {
+        Effect: "Allow",
+        Action: ["dynamodb:*"],
+        Resource:
+          "arn:aws:dynamodb:${self:provider.region}:{aws:accountId}:table/${self:custom.urlTableName}",
+      },
+    ],
+```
