@@ -1,8 +1,13 @@
-type Response = { statusCode?: number; data?: any };
+type Response = {
+  statusCode?: number;
+  data?: any;
+  headers?: Record<string, string>;
+};
 
 export const formatJSONResponse = ({
   statusCode = 200,
   data = {},
+  headers,
 }: Response) => {
   return {
     statusCode: statusCode,
@@ -10,6 +15,7 @@ export const formatJSONResponse = ({
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Credentials": true,
+      ...headers,
     },
   };
 };

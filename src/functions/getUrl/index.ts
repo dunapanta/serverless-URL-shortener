@@ -19,7 +19,11 @@ export const handler = async (
     const originalUrl = record.originalUrl;
 
     return formatJSONResponse({
-      data: { originalUrl },
+      statusCode: 301,
+      data: {},
+      headers: {
+        Location: originalUrl,
+      },
     });
   } catch (err) {
     return formatJSONResponse({
