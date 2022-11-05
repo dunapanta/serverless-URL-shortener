@@ -5,7 +5,7 @@ const functions: AWS["functions"] = {
     handler: "src/functions/setUrl/index.handler",
     events: [
       {
-        http: {
+        httpApi: {
           method: "post",
           path: "/",
         },
@@ -16,7 +16,7 @@ const functions: AWS["functions"] = {
     handler: "src/functions/getUrl/index.handler",
     events: [
       {
-        http: {
+        httpApi: {
           method: "get",
           path: "/{code}",
         }
